@@ -88,6 +88,8 @@ impl PasswordHasher for Bcrypt {
         password_vec.extend_from_slice(password);
         password_vec.push(0);
 
+        // Truncate to match the behaviour of the `bcrypt` crate
+        // Not a fan of this behaviour tbh but most implementations do that
         let truncated = if password_vec.len() > 72 {
             &password_vec[..72]
         } else {
